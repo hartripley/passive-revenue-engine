@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pawnsapp-node
+  labels:
+    app: pawnsapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pawnsapp
+  template:
+    metadata:
+      labels:
+        app: pawnsapp
+    spec:
+      containers:
+      - name: pawnsapp
+        image: docker.io/iproyal/pawns-cli:latest
+        args: ["-email=$(PAWNS_EMAIL)", "-password=$(PROTONMAIL_PASSWORD)", "-device-name=OpenShift-Node", "-accept-tos"]
+        env:
+        - name: PAWNS_EMAIL
+          valueFrom:
+            secretKeyRef:
+              name: passive-revenue-secrets
+              key: PAWNS_EMAIL
+        - name: PROTONMAIL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: passive-revenue-secrets
+              key: PROTONMAIL_PASSWORD
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"

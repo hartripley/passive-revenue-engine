@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: honeygain-node
+  labels:
+    app: honeygain
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: honeygain
+  template:
+    metadata:
+      labels:
+        app: honeygain
+    spec:
+      containers:
+      - name: honeygain
+        image: docker.io/honeygain/honeygain:latest
+        args: ["-tou-accept", "-email", "$(HONEYGAIN_EMAIL)", "-pass", "$(PROTONMAIL_PASSWORD)", "-device", "OpenShift-Node"]
+        env:
+        - name: HONEYGAIN_EMAIL
+          valueFrom:
+            secretKeyRef:
+              name: passive-revenue-secrets
+              key: HONEYGAIN_EMAIL
+        - name: PROTONMAIL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: passive-revenue-secrets
+              key: PROTONMAIL_PASSWORD
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"

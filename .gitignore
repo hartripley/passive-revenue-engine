@@ -1,0 +1,6 @@
+# Ignore secret definitions and local environments
+secrets/
+*-secret.yaml
+*-secrets.yaml
+*.env
+.env
