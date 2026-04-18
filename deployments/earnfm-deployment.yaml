@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: earnfm-node
+  labels:
+    app: earnfm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: earnfm
+  template:
+    metadata:
+      labels:
+        app: earnfm
+    spec:
+      containers:
+      - name: earnfm
+        image: docker.io/earnfm/client:latest
+        env:
+        - name: EARNFM_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: passive-revenue-secrets
+              key: EARNFM_TOKEN
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"

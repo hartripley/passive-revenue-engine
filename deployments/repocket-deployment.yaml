@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: repocket-node
+  labels:
+    app: repocket
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: repocket
+  template:
+    metadata:
+      labels:
+        app: repocket
+    spec:
+      containers:
+      - name: repocket
+        image: docker.io/repocket/repocket:latest
+        env:
+        - name: RP_EMAIL
+          valueFrom:
+            secretKeyRef:
+              name: passive-revenue-secrets
+              key: HONEYGAIN_EMAIL
+        - name: RP_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: passive-revenue-secrets
+              key: REPOCKET_TOKEN
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
