@@ -16,14 +16,14 @@ spec:
     spec:
       containers:
       - name: bitping
-        image: docker.io/mrcolorrain/bitping:latest
+        image: docker.io/bitping/bitpingd:latest
         env:
         - name: BITPING_EMAIL
           valueFrom:
             secretKeyRef:
               name: passive-revenue-secrets
               key: HONEYGAIN_EMAIL
-        - name: BITPING_PASSWD
+        - name: BITPING_PASSWORD
           valueFrom:
             secretKeyRef:
               name: passive-revenue-secrets
