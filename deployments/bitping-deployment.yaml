@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bitping-node
+  labels:
+    app: bitping
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bitping
+  template:
+    metadata:
+      labels:
+        app: bitping
+    spec:
+      containers:
+      - name: bitping
+        image: docker.io/mrcolorrain/bitping:latest
+        env:
+        - name: BITPING_EMAIL
+          valueFrom:
+            secretKeyRef:
+              name: passive-revenue-secrets
+              key: HONEYGAIN_EMAIL
+        - name: BITPING_PASSWD
+          valueFrom:
+            secretKeyRef:
+              name: passive-revenue-secrets
+              key: PROTONMAIL_PASSWORD
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
