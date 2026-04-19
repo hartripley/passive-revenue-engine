@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: earnfm
-        image: docker.io/earnfm/client:latest
+        image: docker.io/earnfm/earnfm-client:latest
         env:
         - name: EARNFM_TOKEN
           valueFrom:
